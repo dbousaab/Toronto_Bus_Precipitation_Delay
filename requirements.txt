@@ -1,0 +1,7 @@
+streamlit>=1.36
+pandas>=2.1
+numpy>=1.26
+altair>=5
+folium>=0.15
+branca>=0.7
+streamlit-folium>=0.20
