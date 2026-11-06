@@ -38,18 +38,22 @@ if not REASONS_FILE.exists() or not COORDS_FILE.exists():
 @st.cache_data
 def load_eda():
     reasons = pd.read_csv(REASONS_FILE)
-    points = pd.read_csv(COORDS_FILE, dtype={"route": str, "location": str})
+    points = pd.read_csv(COORDS_FILE, dtype={"route": str, "location": str, "located_by": str})
     points["date"] = pd.to_datetime(points["date"])
-    points[["route", "location"]] = points[["route", "location"]].fillna("")
+    for col in ("route", "location", "located_by"):
+        if col in points:
+            points[col] = points[col].fillna("")
     return reasons, points
 
 
 reasons, points = load_eda()
 years = sorted(reasons["year"].unique())
+focus_present = [r for r in FOCUS_REASONS if r in set(reasons["incident"])]
+focus_names = ", ".join(focus_present[:-1]) + (" and " if len(focus_present) > 1 else "") + focus_present[-1]
 
 st.markdown(
-    "All TTC bus delays recorded before 2025, by incident reason. The four reasons the project focuses on "
-    "(**General Delay, Operations, Diversion and Other**) are highlighted; the map shows where those delays happen."
+    f"TTC bus delays recorded {years[0]}–{years[-1]}, by incident reason. The project's focus reasons "
+    f"(**{focus_names}**) are highlighted; the map shows where those delays happen."
 )
 
 # ---- filters ------------------------------------------------------------------------------
@@ -57,9 +61,9 @@ year_range = st.select_slider("Years", options=years, value=(years[0], years[-1]
 in_years = reasons[reasons["year"].between(*year_range)]
 by_reason = (in_years.groupby("incident")[["delays", "delay_minutes"]].sum()
              .sort_values("delays", ascending=False).reset_index())
-by_reason["focus"] = np.where(by_reason["incident"].isin(FOCUS_REASONS), "Focus reason", "Other reasons")
+by_reason["focus"] = np.where(by_reason["incident"].isin(focus_present), "Focus reason", "Other reasons")
 by_reason["share"] = by_reason["delays"] / by_reason["delays"].sum()
-focus = by_reason[by_reason["incident"].isin(FOCUS_REASONS)]
+focus = by_reason[by_reason["incident"].isin(focus_present)]
 
 k1, k2, k3, k4 = st.columns(4)
 k1.metric("Bus delays", f"{by_reason['delays'].sum():,}", help=f"All reasons, {year_range[0]}–{year_range[1]}")
@@ -88,7 +92,7 @@ with left.container(border=True):
 
 with right.container(border=True):
     st.markdown("#### Focus reasons")
-    st.markdown('<p class="rd-note">The four reasons kept for the analysis.</p>', unsafe_allow_html=True)
+    st.markdown('<p class="rd-note">The reasons kept for the analysis.</p>', unsafe_allow_html=True)
     fchart = alt.Chart(focus).mark_bar(color=FOCUS_COLOUR, cornerRadiusEnd=3).encode(
         x=alt.X("incident:N", sort="-y", title=None, axis=alt.Axis(labelAngle=0)),
         y=alt.Y("delays:Q", title="Delays"),
@@ -97,7 +101,7 @@ with right.container(border=True):
     ).properties(height=300)
     st.altair_chart(fchart, use_container_width=True)
 
-    trend = in_years[in_years["incident"].isin(FOCUS_REASONS)]
+    trend = in_years[in_years["incident"].isin(focus_present)]
     if trend["year"].nunique() > 1:
         st.markdown("##### Focus reasons by year")
         st.altair_chart(alt.Chart(trend).mark_line(point=True).encode(
@@ -119,7 +123,7 @@ with st.container(border=True):
         busiest = pts.groupby(pts["date"].dt.date).size().idxmax()
         chosen = c2.date_input("Day", value=busiest, min_value=days.iloc[0], max_value=days.iloc[-1])
         pts = pts[pts["date"].dt.date == chosen]
-    chosen_reasons = c3.multiselect("Reasons", FOCUS_REASONS, default=FOCUS_REASONS)
+    chosen_reasons = c3.multiselect("Reasons", focus_present, default=focus_present)
     pts = pts[pts["incident"].isin(chosen_reasons)]
 
     import folium
@@ -138,6 +142,7 @@ with st.container(border=True):
         for r in pts.itertuples():
             folium.CircleMarker([r.latitude, r.longitude], radius=4, color=FOCUS_COLOUR, fill=True, fill_opacity=0.8,
                                 tooltip=f"{r.time} · {r.incident} · Route {r.route} · {r.delay_min} min · {r.location}"
+                                        + (f" (located by {r.located_by})" if getattr(r, "located_by", "") else "")
                                 ).add_to(dots)
     folium.LayerControl(collapsed=True).add_to(m)
     st.caption(f"{len(pts):,} delays shown" + (" (map uses a 60,000-point sample)" if len(pts) > 60000 else ""))
@@ -151,7 +156,10 @@ with st.container(border=True):
 with st.expander("About this page"):
     st.markdown("""
 - **Source:** the TTC bus delay records before 2025 used in `pre_2025_ttc_bus_EDA.ipynb`
-  (`pre_2025_ttc_bus_delays_cleaned.csv` for the reasons, `..._with_coords.csv` for the map).
-- **Focus reasons:** General Delay, Operations, Diversion and Other, the reasons the notebook keeps.
-- **Map:** only delays whose location could be geocoded appear; points outside the Toronto area are dropped.
+  (`pre_2025_ttc_bus_delays_with_coords.csv`): every delay that could be given a location.
+- **Focus reasons:** the reasons the notebook keeps (General Delay, Operations, Diversion and Other);
+  "Other" does not occur in this file, so only the reasons present are shown.
+- **Map locations:** each delay is placed at its station, intersection or route midpoint ("located by" in the
+  point tooltips), so route-midpoint points show where a route runs rather than the exact incident spot.
+  Points outside the Toronto area are dropped.
 """)
