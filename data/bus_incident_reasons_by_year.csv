@@ -1,0 +1,119 @@
+year,incident,delays,delay_minutes
+2014,Diversion,2750,531394
+2014,Emergency Services,1175,14717
+2014,General Delay,8880,129097
+2014,Investigation,5673,66643
+2014,Late Leaving Garage,9567,94208
+2014,Mechanical,35616,382741
+2014,Utilized Off Route,12158,101307
+2015,Diversion,3117,361289
+2015,Emergency Services,1107,13947
+2015,General Delay,6832,100771
+2015,Investigation,5076,60336
+2015,Late Leaving Garage,9453,95274
+2015,Mechanical,25532,288277
+2015,Utilized Off Route,10368,82393
+2016,Diversion,3096,369763
+2016,Emergency Services,1223,15488
+2016,General Delay,5568,98237
+2016,Investigation,5681,68605
+2016,Late Leaving Garage,10712,107932
+2016,Mechanical,24142,278928
+2016,Utilized Off Route,11647,103574
+2017,Diversion,3370,395389
+2017,Emergency Services,1204,15934
+2017,General Delay,5718,89838
+2017,Investigation,5636,70101
+2017,Late Leaving Garage,9130,94128
+2017,Mechanical,19007,224461
+2017,Utilized Off Route,10592,88966
+2018,Diversion,3755,738121
+2018,Emergency Services,1183,16107
+2018,General Delay,6898,116509
+2018,Investigation,5774,69454
+2018,Late Leaving Garage,8495,93922
+2018,Mechanical,16710,202021
+2018,Utilized Off Route,8566,76361
+2019,Diversion,3509,507482
+2019,Emergency Services,1237,15594
+2019,General Delay,7079,125835
+2019,Investigation,6488,78753
+2019,Late Leaving Garage,2870,32820
+2019,Mechanical,16652,190311
+2019,Unknown,479,5321
+2019,Utilized Off Route,7080,54483
+2019,Vision,416,4918
+2020,Cleaning,1923,23329
+2020,Collision - TTC,794,8538
+2020,Diversion,1317,178383
+2020,Emergency Services,1260,16892
+2020,General Delay,1111,55030
+2020,Investigation,3102,43861
+2020,Late Entering Service,3,82
+2020,Late Leaving Garage,2721,23989
+2020,Management,29,397
+2020,Mechanical,10871,135625
+2020,Operations,1260,25883
+2020,Road Blocked - Non-TTC Collision,587,43974
+2020,Security,931,11085
+2020,Utilized Off Route,4620,45472
+2020,Vision,429,5630
+2021,Cleaning,8932,113048
+2021,Collision - TTC,1904,22643
+2021,Diversion,743,87698
+2021,Emergency Services,1511,16767
+2021,General Delay,1082,59079
+2021,Held By,251,8338
+2021,Investigation,891,25240
+2021,Late,17,129
+2021,Late Entering Service,17,371
+2021,Late Leaving Garage,15,313
+2021,Management,23,200
+2021,Mechanical,9095,119048
+2021,Operations,9071,139869
+2021,Overhead,13,615
+2021,Rail/Switches,6,77
+2021,Road Blocked - Non-TTC Collision,738,58780
+2021,Security,2279,28864
+2021,Unknown,1,6
+2021,Utilized Off Route,570,8726
+2021,Vision,583,7553
+2022,Cleaning,1404,20769
+2022,Collision - TTC,2938,35798
+2022,Diversion,2407,295607
+2022,Emergency Services,2049,25257
+2022,General Delay,2729,62695
+2022,Held By,136,10925
+2022,Investigation,791,9065
+2022,Late Entering Service,39,758
+2022,Mechanical,14548,190373
+2022,Operations,17572,239943
+2022,Road Blocked - Non-TTC Collision,544,43135
+2022,Security,2943,39924
+2022,Utilized Off Route,2922,36655
+2022,Vision,618,8257
+2023,Cleaning,1862,26945
+2023,Collision - TTC,3255,39311
+2023,Diversion,3166,326677
+2023,Emergency Services,2594,29935
+2023,General Delay,2723,62463
+2023,Held By,57,3632
+2023,Investigation,1085,12307
+2023,Mechanical,16766,222562
+2023,Operations,10063,141776
+2023,Road Blocked - Non-TTC Collision,217,13065
+2023,Security,4154,48533
+2023,Utilized Off Route,2071,28038
+2023,Vision,669,9295
+2024,Cleaning,2128,31037
+2024,Collision - TTC,3664,44552
+2024,Diversion,3785,440581
+2024,Emergency Services,2896,33468
+2024,General Delay,3627,39190
+2024,Investigation,1011,12743
+2024,Mechanical,17712,240677
+2024,Operations,9114,134045
+2024,Road Blocked - Non-TTC Collision,163,5879
+2024,Security,4192,49793
+2024,Utilized Off Route,2404,32510
+2024,Vision,1671,23290
